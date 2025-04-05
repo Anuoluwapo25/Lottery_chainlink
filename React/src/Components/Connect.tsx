@@ -1,5 +1,5 @@
 // ./Components/Connect.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connectWallet, disconnectWallet } from '../web3modalConfig';
 
 interface WalletConnectorProps {
@@ -11,19 +11,7 @@ const WalletConnector: React.FC<WalletConnectorProps> = ({ onConnect }) => {
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const connectCachedWallet = async () => {
-      if (localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
-        try {
-          await handleConnect();
-        } catch (err) {
-          console.error("Auto-connect failed:", err);
-        }
-      }
-    };
-
-    connectCachedWallet();
-  }, []);
+  
 
   const handleConnect = async () => {
     try {

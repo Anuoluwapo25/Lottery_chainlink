@@ -3,8 +3,7 @@ import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
-// Replace with your actual Infura ID or use the .env variable
-const INFURA_ID = process.env.REACT_APP_INFURA_ID || 'YOUR_INFURA_ID';
+const INFURA_ID = '';
 
 const providerOptions = {
   walletconnect: {

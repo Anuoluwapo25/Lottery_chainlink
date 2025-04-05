@@ -2,6 +2,7 @@
 import React from 'react';
 import './App.css';
 import WalletConnector from './Components/Connect';
+import FormFee from './Components/LotteryFee';
 
 function App() {
   return (
@@ -13,6 +14,9 @@ function App() {
         {/* Wallet connect component */}
         <WalletConnector onConnect={(address) => console.log("Connected:", address)} />
       </header>
+      <main>
+        <FormFee />
+      </main>
     </div>
   );
 }
