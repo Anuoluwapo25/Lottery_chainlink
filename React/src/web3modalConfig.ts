@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
-const INFURA_ID = '';
+const INFURA_ID = '7882223f8b23445fb5e64af6bc1b18cd';
 
 const providerOptions = {
   walletconnect: {
@@ -40,4 +40,11 @@ export const disconnectWallet = async () => {
   if (web3Modal) {
     await web3Modal.clearCachedProvider();
   }
+};
+
+export const checkConnection = async () => {
+  if (web3Modal && web3Modal.cachedProvider) {
+    return await connectWallet();
+  }
+  return null;
 };

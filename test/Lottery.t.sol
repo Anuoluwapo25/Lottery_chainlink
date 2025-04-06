@@ -7,7 +7,7 @@ import "forge-std/console.sol";
 import "@chainlink/contracts/src/v0.8/vrf/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/vrf/VRFConsumerBaseV2.sol";
 
-// Mock Chainlink VRF Coordinator for testing
+
 contract MockVRFCoordinator is VRFCoordinatorV2Interface {
     uint256 private lastRequestId;
     LotteryVRF private lottery;
@@ -26,12 +26,10 @@ contract MockVRFCoordinator is VRFCoordinatorV2Interface {
 
     function triggerRandomWords(uint256[] memory randomWords) external {
         if (address(lottery) != address(0)) {
-            // Cast to VRFConsumerBaseV2 to call fulfillRandomWords
             VRFConsumerBaseV2(address(lottery)).rawFulfillRandomWords(lastRequestId, randomWords);
         }
     }
 
-    // Implement required interface functions with minimal logic
     function getRequestConfig() external pure returns (uint16, uint32, bytes32[] memory) {
         bytes32[] memory keyhashes = new bytes32[](0);
         return (3, 1000000, keyhashes);
@@ -62,12 +60,10 @@ contract LotteryVRFTest is Test {
     LotteryVRF public lottery;
     MockVRFCoordinator public vrfCoordinator;
     
-    // Test addresses
     address public alice = address(0x1);
     address public bob = address(0x2);
     address public charlie = address(0x3);
     
-    // Test constants
     uint64 public subscriptionId = 1234;
     bytes32 public gasLane = keccak256("test");
     uint32 public callbackGasLimit = 500000;
@@ -75,10 +71,8 @@ contract LotteryVRFTest is Test {
     uint256 public interval = 5;
     
     function setUp() public {
-        // Deploy mock VRF Coordinator
         vrfCoordinator = new MockVRFCoordinator();
         
-        // Deploy the lottery contract
         lottery = new LotteryVRF(
             0x8103B0A8A00be2DDC778e6e7eaa21791Cd364625,
             subscriptionId,
@@ -88,41 +82,36 @@ contract LotteryVRFTest is Test {
             interval
         );
         
-        // Fund test users
         vm.deal(alice, 10 ether);
         vm.deal(bob, 10 ether);
         vm.deal(charlie, 10 ether);
     }
     
     function testEnterLottery() public {
-        // Enter as Alice
+
         vm.prank(alice);
         lottery.enterLottery{value: entranceFee}();
         
-        // Check player count
         assertEq(lottery.getNumberOfPlayers(), 1);
     }
     
     function testMultiplePlayersEnterLottery() public {
-        // Enter as Alice
         vm.prank(alice);
         lottery.enterLottery{value: entranceFee}();
         
-        // Enter as Bob
         vm.prank(bob);
         lottery.enterLottery{value: entranceFee}();
         
-        // Enter as Charlie
+
         vm.prank(charlie);
         lottery.enterLottery{value: entranceFee}();
-        
-        // Check player count
+   
         assertEq(lottery.getNumberOfPlayers(), 3);
         
-        // Check player at index 0 is Alice
+  
         assertEq(lottery.getPlayer(0), alice);
         
-        // Check player at index 1 is Bob
+    
         assertEq(lottery.getPlayer(1), bob);
         
         // Check player at index 2 is Charlie

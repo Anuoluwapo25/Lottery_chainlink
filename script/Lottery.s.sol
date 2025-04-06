@@ -11,7 +11,7 @@ contract CounterScript is Script {
     uint64 public subscriptionId = 1234;
     bytes32 public gasLane = keccak256("test");
     uint32 public callbackGasLimit = 500000;
-    uint256 public entranceFee = 0.01 ether;
+    uint256 public entranceFee = 0.001 ether;
     uint256 public interval = 5;
 
 

@@ -1,10 +1,17 @@
-// App.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import WalletConnector from './Components/Connect';
 import FormFee from './Components/LotteryFee';
 
 function App() {
+  const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
+
+  // Handle wallet connection
+  const handleConnect = (address: string) => {
+    console.log("Connected:", address);
+    setConnectedAddress(address);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -12,10 +19,11 @@ function App() {
         <p>Basic rendering test.</p>
 
         {/* Wallet connect component */}
-        <WalletConnector onConnect={(address) => console.log("Connected:", address)} />
+        <WalletConnector onConnect={handleConnect} />
       </header>
       <main>
-        <FormFee />
+        {/* Pass the connected address to the form */}
+        <FormFee connectedAddress={connectedAddress} />
       </main>
     </div>
   );
